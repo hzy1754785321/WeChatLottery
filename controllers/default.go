@@ -28,6 +28,10 @@ func (c *MainController) Home()  {
 	c.TplName= "home.html"
 }
 
+func (c *MainController) LotteryManage()  {
+	c.TplName= "lotteryType.html"
+}
+
 func (c *MainController) Personal()  {
 
 	c.TplName= "personal/personal.html"

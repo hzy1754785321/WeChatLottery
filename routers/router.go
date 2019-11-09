@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"blog/controllers"
+	"WeChatLottery/controllers"
 	"github.com/astaxie/beego"
 )
 
@@ -23,4 +23,5 @@ func init() {
 	beego.Router("/UploadFiles", &controllers.SendController{}, "post:UploadFiles")
 	beego.Router("/SendVerifyMail", &controllers.SendController{}, "post:SendVerifyMail")
 	beego.Router("/VerifyMailCode", &controllers.SendController{}, "post:VerifyMailCode")
+	beego.Router("/lotteryManage", &controllers.MainController{}, "*:LotteryManage")
 }

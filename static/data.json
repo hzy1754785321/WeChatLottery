@@ -1,0 +1,46 @@
+{
+    "status": 200
+    ,"message": ""
+    ,"total": 1
+    ,"rows": {
+      "item": [{
+        "id": "10001"
+        ,"title": "测试抽奖"
+        ,"lottertNumber": "6"
+        ,"createTime": "2019-11-06"
+        ,"startTime": "未开始"
+        ,"endTime": "2019-11-08 00:00:00"
+        ,"duration": "未开始"
+        ,"joinNumber": "未开始"
+        , "reword": [{
+           "type" : "一等奖"
+          ,"count" : "1"
+          ,"rewordItemCount" : 1 
+          ,"rewordItems": [
+            {"rewordItem1" : [
+              {"rewordName" : "tv","rewordState" : "false"}]
+            }]},
+        {
+          "type" : "二等奖"
+          ,"count" : 2
+          ,"rewordItemCount" : 1 
+          ,"rewordItems": [{
+            "rewordItem1" : [{
+              "rewordName" : "iphone","rewordState" : "false"}]
+            }]},
+        {
+          "type" : "三等奖"
+          ,"count" : 3
+          ,"rewordItemCount" : 3 
+          ,"rewordItems": [{
+            "rewordItem1" : [{
+              "rewordName" : "充电宝","rewordState" : "false"}]},
+            {"rewordItem2" : [{
+              "rewordName" : "蓝牙耳机","rewordState" : "false"}]},
+            {"rewordItem3" : [{
+              "rewordName" : "电动牙刷","rewordState" : "false"}]}   
+           ]}]
+      }]
+    }
+}
+  

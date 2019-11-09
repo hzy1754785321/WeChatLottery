@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	m "blog/models"
+	m "WeChatLottery/models"
 	"time"
 	"os"
 	"path"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "blog/routers"
+	_ "WeChatLottery/routers"
 	"github.com/astaxie/beego/session"
 	"github.com/astaxie/beego"
 	_ "github.com/astaxie/beego/session/redis"
@@ -37,7 +37,6 @@ func main() {
 }
 
 // func initConfig() {
-
 // rootPath := GetAPPRootPath()
 // beego.SetViewsPath(rootPath +"/views")
 // beego.LoadAppConfig("ini", rootPath+"/conf/app.conf")

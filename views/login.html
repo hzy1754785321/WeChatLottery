@@ -142,6 +142,7 @@
 <script type="text/javascript" src="/static/js/particleground.js"></script>
 <script type="text/javascript" src="/static/js/treatment.js"></script>
 <script type="text/javascript" src="/static/js/jquery.mockjax.js"></script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 <script type="text/javascript">
 var canGetCookie = 0;//是否支持存储Cookie 0 不支持 1 支持
 var ajaxmockjax = 1;//是否启用虚拟Ajax的请求响 0 不启用  1 启用
@@ -323,6 +324,7 @@ layui.use('layer', function () {
                                 $('.login div').fadeOut(100);
                                 $('.success').fadeIn(800);
                                 $('.success').html(res.msg);
+
                                 setTimeout(function () {
                                 window.location.href="/home";
                                 }, 3400);
