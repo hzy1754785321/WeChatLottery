@@ -66,3 +66,34 @@ func DeleteRedis(key string){
 		fmt.Println("redis delelte value failed >>>", err)
 	}
 }
+
+func GetRedisListValue(key string,index int)(value int){
+	conn := pool.Get()
+	defer conn.Close()
+	data, err := redis.Int(conn.Do("lindex", key, index))
+	if err != nil {
+		fmt.Println("redis get list value failed:", err)
+	}
+	return data
+}
+
+func CheckRedisSet(key string,value int)(exists int){
+	conn := pool.Get()
+	defer conn.Close()
+	exists, err := redis.Int(conn.Do("SISMEMBER", key, value))
+	if err != nil {
+		fmt.Println("Value already exists :", err)
+	}
+	return exists
+}
+
+func AddRedisSet(key string,value int)(result int){
+	conn := pool.Get()
+	defer conn.Close()
+	exists, err := redis.Int(conn.Do("SADD", key, value))
+	if err != nil {
+		fmt.Println("RedisSet add value failed :", err)
+	}
+	return exists
+}
+

@@ -9,6 +9,8 @@ import (
 	"crypto/md5"
 	"io"
 	"math/rand"
+	"strconv"
+	"strings"
 )
 
 //DataController data
@@ -198,5 +200,56 @@ func(c *DataController) CheckPassword() {
 	}else{
 		c.Data["json"] = map[string]interface{}{"status": true, "msg": "密码正确"}
 	}
+	c.ServeJSON()
+}
+
+func(c *DataController) AddNewLottery() {
+	rewardName, rewardPeopleNum := c.GetString("rewardNames"),  c.GetString("rewardPeopleNum") 
+	rewardItemName, rewardCountStr := c.GetString("rewardItemName"), c.GetString("rewardCount")
+	lottType, lottEndTime := c.GetString("lottTtpe"), c.GetString("lottEndTime")
+
+	rewardCount,_ := strconv.Atoi(rewardCountStr)
+
+	var lottery m.LotteryInfo
+
+	lottery.LotteryType = lottType
+	lottery.LotteryCreate = time.Now().Format("2006-01-02 15:04:05")
+	lottery.LotteryEnd = lottEndTime
+	lottery.JoinNumber = 0
+
+//	var rewardInfos m.RewardInfo
+
+	var rewardInfos = make([]m.RewardInfo, rewardCount)
+
+	rewardNameSplit := strings.Split(rewardName, ";")
+	rewardPeopleNumSplit := strings.Split(rewardPeopleNum, ";")
+	rewardItemNameSplit := strings.Split(rewardItemName,"&")
+	for i := 0; i < rewardCount; i++ {
+		rewardInfos[i].RewardName = rewardNameSplit[i]
+		rewardInfos[i].RewardPeopleNum = rewardPeopleNumSplit[i]
+		ItemNameSplit := strings.Split(rewardItemNameSplit[i],";")
+		rewardItemInfos := make([]m.RewordItemInfo,len(ItemNameSplit))
+		for j := 0; j < len(ItemNameSplit); j++{
+			rewardItemInfos[i].RewardItemName = ItemNameSplit[i]
+			rewardItemInfos[i].RewordState = "false"
+		}
+	}
+
+	var lotteryRedisKey = "LotteryIDList"
+	var lotteryRedisCountKey = "LotteryListCount"
+	var lotteryRedisCount = 1
+	var lotteryValue = 0001
+	if m.CheckRedis(lotteryRedisKey){
+		lotteryRedisCount,_ = strconv.Atoi(m.GetRedis(lotteryRedisCountKey))
+		lotteryRedisCount++
+		m.AddRedisSet(lotteryRedisKey,lotteryRedisCount)
+		m.SetRedis(lotteryRedisCountKey,strconv.Itoa(lotteryRedisCount))
+	}else{
+		m.AddRedisSet(lotteryRedisKey,lotteryValue)
+		m.AddRedisSet(lotteryRedisCountKey,lotteryRedisCount)
+		
+	}
+
+	c.Data["json"] = map[string]interface{}{"status": true, "lotteryID": lotteryValue}
 	c.ServeJSON()
 }

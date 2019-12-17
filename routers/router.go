@@ -24,4 +24,5 @@ func init() {
 	beego.Router("/SendVerifyMail", &controllers.SendController{}, "post:SendVerifyMail")
 	beego.Router("/VerifyMailCode", &controllers.SendController{}, "post:VerifyMailCode")
 	beego.Router("/lotteryManage", &controllers.MainController{}, "*:LotteryManage")
+	beego.Router("/AddNewLottery", &controllers.DataController{}, "post:AddNewLottery")
 }
