@@ -1,0 +1,28 @@
+[{
+        "lotteryID": "10001"
+        ,"lotteryTitle": "测试"
+        ,"lotteryCreate": "2019-11-06"
+        ,"lotteryEnd": "2019-11-08 00:00:00"
+        ,"joinNumber": ["123","231"]
+        , "rewardInfo": [
+        {
+           "rewardName" : "一"
+          ,"rewardCount" : 1
+          ,"rewardPeople" : ["231"]
+          ,"rewordItems": "apple"},
+        {
+          "rewardName" : "二"
+          ,"rewardCount" : 2
+          ,"rewardPeople" : ["231","124"]
+          ,"rewordItems": "aaa"},
+        {
+          "rewardName" : "三"
+          ,"rewardCount" : 3
+          ,"rewardPeople" : ["231","124","123"]
+          ,"rewordItems": "aaa"}
+        ]
+}]
+    
+
+
+  

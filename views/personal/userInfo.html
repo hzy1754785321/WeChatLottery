@@ -1,0 +1,285 @@
+{{template "/personal/personal.html" .}}
+
+<body>   
+
+<div id="personal" class="personal-body">
+
+
+        
+     
+        <!-- <div class="layui-form-item">
+                <label class="layui-form-label">请输入</label>
+                <div class="layui-input-block"></div>
+                  <input type="text" name="title" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div> -->
+                 
+              <script>
+                var provinceTag;
+                var cityTag;
+                var areaTag;
+               
+                var perCanvas = document.getElementById('personal'); 
+                var canvas = document.getElementById('canvas-banner');
+                var nav = document.getElementById('testNav');
+                var header =  document.getElementById('header');
+                var body =  document.getElementById('headBody');
+                perCanvas.style.marginLeft = nav.offsetWidth + "px";
+                body.offsetHeight = body.offsetHeight - header.offsetHeight;
+                canvas.height = window.innerHeight * 1 / 60;
+                if (screen.width >= 992) {
+                    canvas.height = window.innerHeight * 1 / 60;
+                } else {
+                    canvas.height = window.innerHeight * 2 / 100;
+                }
+                canvas.width = window.document.body.clientWidth;
+               </script>
+
+        <div class="layui-main">
+            <p align="center"><img id="personIcon" src="/static/img/pic.jpg" width="120" height="120" class="layui-circle"></p> 
+            <br>
+            <label class="label" id="per_nickName" style="font-size:30px;font-family:'微软雅黑';display: block;text-align: center;">helios</label>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>个人信息</legend>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>账号</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                        <span id="per_userName"></span>
+                </div>
+        </fieldset>
+        <!-- <fieldset class="layui-elem-field">
+                        <legend>昵称</legend>
+                        <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                                <span id="per_nickName"></span>
+                        </div>
+        </fieldset> -->
+        <fieldset class="layui-elem-field">
+                <legend>注册时间</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                        <span id="per_create"></span>
+                </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>性别</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                        <span id="per_sex"></span>
+                </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>所在城市</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                        <span id="per_city"></span>
+                </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>生日</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                        <span id="per_birth"></span>
+                </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>爱好</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                 未填写
+                </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+                <legend>我的签名</legend>
+                <div class="layui-field-box" style="background:#F1FAFA; color:rgb(0, 0, 0);" >
+                这个人很懒,什么都没写
+                </div>
+        </fieldset>
+    </div>
+    <script>
+                        
+                        var RefrePersonal = function(){
+                        // var sessionId = getCookie("sessionID")
+                        var JsonData = { sessionID: sessionId};
+                        $.ajax({
+                                        type: 'post',
+                                        url: '/GetSessionPersonal',
+                                        data: JsonData,
+                                        success: function(res) {
+                                        $("#per_nickName").text(res.Nickname);
+                                        $("#per_userName").text(res.Username);
+                                        $("#per_create").text(res.Created);
+                                        if(res.Sex == ''){
+                                                $("#per_sex").text("未填写");     
+                                        }else{
+                                                $("#per_sex").text(res.Sex);   
+                                        }
+                                        if(res.Birth == ''){
+                                                $('#per_birth').text("未填写");
+                                        }else{
+                                                $('#per_birth').text(res.Birth);
+                                        }
+                                        if(res.Province == '' && res.City == '' && res.Area == ''){
+                                                $('#per_city').text("未填写");
+                                        }else{
+                                                var cityText = res.Province + "  " + res.City + "  " + res.Area;
+                                                $('#per_city').text(cityText);
+                                        }
+                                        $('#personIcon').attr('src', res.Icon); 
+                                }
+                        });
+                        }
+                        RefrePersonal();
+               
+                  layui.use(['util', 'laydate', 'layer','form'], function(){
+                  var util = layui.util
+                  ,laydate = layui.laydate
+                  ,layer = layui.layer
+                  ,form = layui.form
+                  //固定块
+                  util.fixbar({
+                    bar1: "&#xe642;"
+                    ,css: {right: 50, bottom: 100}
+                    ,bgcolor: '#393D49'
+                    ,click: function(type){
+                      if(type === 'bar1'){
+                        function testFun() {
+                                layer.open({
+                                        type: 1,
+                                        shift: 7,
+                                        title: false,
+                                        shadeClose: true,
+                                        closeBtn: false,
+                                        area:["380px","630px"],
+                                        skin: 'layui-elem-field',
+                                        content: "<fieldset class='layui-elem-field site-demo-button' style='margin-top: 30px;'>" +
+                                                        "<legend>修改个人信息</legend>" +
+                                                "</fieldset>" +
+                                                "<form class='layui-form layui-form-pane' action='' '>" +
+                                                        "<div class='layui-form-item' pane=''>" +
+                                                                "<label class='layui-form-label'>昵称</label>" +
+                                                                "<div class='layui-input-inline'>" +
+                                                                        "<input type='text' id='name1' name='name' id='name' lay-verify='name' type='text' autocomplete='off' class='layui-input'>" +
+                                                                "</div>" +
+                                                        "</div>" +                                       
+                                                        "<div class='layui-form-item' pane=''>" +
+                                                                "<label class='layui-form-label'>出生年月</label>" +
+                                                                "<div class='layui-input-inline'>" +
+                                                                        "<input type='text' id='date' name='date' id='date' lay-verify='date' placeholder='yyyy-MM-dd' autocomplete='off' class='layui-input'>" +
+                                                                "</div>" +
+                                                        "</div>" + 
+                                                        "<div class='layui-form-item' pane=''>" +
+                                                                "<label class='layui-form-label'>所在地址</label>" +
+                                                                "<div class='layui-input-inline'>" +
+                                                                        "<select id='province' lay-filter='province1' name='province'>" +
+                                                                                "<option value=''>请选择省</option>" +
+                                                                        "</select>" +
+                                                                        "<select id='city' lay-filter='city1' name='city'>" +
+                                                                                "<option value=''>请选择市</option>" +
+                                                                        "</select>" +
+                                                                        "<select id='area' lay-filter='area' name='area'>" +
+                                                                                "<option value=''>请选择区</option>" +
+                                                                        "</select>" +
+                                                                "</div>" +
+                                                        "</div>" +                                  
+                                                        "<div class='layui-form-item' pane=''>" +
+                                                                "<label class='layui-form-label'>性别</label>" +
+                                                                "<div class='layui-input-block'>" + 
+                                                                        "<input type='radio' id='man' name='sex' value='男' title='男' checked=''>" +
+                                                                        "<input type='radio' id='women' name='sex' value='女' title='女'>" +
+                                                                        "<input type='radio' id='ufo' name='sex' value='外星人' title='外星人'>" +
+                                                                "</div>" +
+                                                        "</div>" +
+                                                        "<div class='layui-form-item'  pane=''>" +
+                                                                "<label class='layui-form-label'>爱好</label>" +
+                                                                "<div class='layui-input-block'>" +
+                                                                        "<input type='checkbox' name='like[game]' title='游戏'>" +
+                                                                        "<input type='checkbox' name='like[read]' title='看书'>" +
+                                                                        "<input type='checkbox' name='like[animal]' title='动漫'>" +
+                                                                        "<input type='checkbox' name='like[movie]' title='电影'>" +
+                                                                        "<input type='checkbox' name='like[daze]' title='发呆'>" +
+                                                                "</div>" +
+                                                        "</div>" +
+                                                        "<div class='layui-form-item' pane=''>" +
+                                                                "<label class='layui-form-label'>我的签名</label>" +
+                                                                "<div class='layui-input-block'>" +
+                                                                        "<textarea placeholder='请输入签名' class='layui-textarea'></textarea>" +
+                                                                "</div>" +
+                                                        "</div>" +
+                                                "</from>" +
+                                                "<div style='margin-left: 70px;'>" + 
+                                                "<button id ='confirm' type='button' class='layui-btn layui-btn-normal layui-btn-radius layui-btn-lg'>确定</button>" +
+                                                "<button style='margin-left: 60px;' id='cancel' type='button' class='layui-btn layui-btn-normal layui-btn-radius layui-btn-lg'>取消</button>" +
+                                                "</div>"
+                                                                              
+                                });
+                                laydate.render({
+                                        elem: '#date'
+                                });
+                                $('#name1').val($("#per_nickName").text());
+                                $('#date').val($("#per_birth").text());
+                                $('#cancel').click(function (){
+                                        layer.closeAll();
+                                });       
+                                $('#confirm').click(function (){
+                                        var sessionId = getCookie("sessionID");
+                                        var nickName = $('#name1').val()
+                                        ,birth =  $('#date').val()
+                                        ,provincIndex = $('#province').val()
+                                        ,cityIndex = $('#city').val()
+                                        ,areaIndex =  $('#area').val()
+                                        ,sex
+                                        ,flagID = document.querySelectorAll("input[name='sex']")
+                                        ,aFlagID = new Array();      
+                                        for (var i = 0; i < flagID.length; i++) {
+                                           aFlagID.push(flagID[i].id);
+                                           if(flagID[i].checked == true) {
+                                                sex = $("#"+aFlagID[i]).val();
+                                           }
+                                        }
+                                        var provinces;
+                                        var city;
+                                        var area;
+                                        if(cityIndex != ""){
+                                                provinces = provinceTag.options[++provincIndex].text;
+                                                city = cityTag.options[cityIndex].text;
+                                                area = areaTag.options[areaIndex].text;
+                                        }
+                                        var JsonData = { sessionID: sessionId,NickName: nickName,Birth: birth,Province: provinces,City: city,Area: area,Sex: sex};
+                                                $.ajax({
+                                                        type: 'post',
+                                                        url: '/SavePersonal',
+                                                        data: JsonData,
+                                                        success: function(res) {                                   
+                                                                layer.msg(res.msg, {time: 1500, icon: 6});
+                                                }
+                                        });
+                                        RefrePersonal();
+                                        layer.closeAll();
+                                });                                  
+                        }
+                        testFun();              
+                        provinceTag = document.getElementById("province");
+                        cityTag = document.getElementById("city");
+                        areaTag = document.getElementById("area");      
+                        addProvince();
+                        provinceTag.selectedIndex = 1;
+                        form.on('select(province1)',  function(data){
+                          chooseProvince(provinceTag);
+                          form.render('select');
+                        });    
+                        form.on('select(city1)', function(data){
+                          chooseCity(cityTag);
+                          form.render('select');
+                        });       
+                        form.render();           
+                      } 
+                    }
+                  });             
+                });
+                </script>
+
+    <script src="/static/js/city.js"></script>
+    <canvas id="canvas-banner" style="background: rgb(255, 255, 255);">
+    
+</body>
+</html>
+
+          
+

@@ -1,0 +1,143 @@
+{{template "head.html" .}}
+
+<style>
+        .site-doc-icon li{width: 222px;}
+        .site-doc-icon li .layui-anim{width: 150px; height: 150px; line-height: 150px; margin: 0 auto 10px; text-align: center; background-color: #009688; cursor: pointer; color: #fff; border-radius: 50%;}
+</style>
+<link type="text/css" rel="stylesheet" href="/static/css/extra.css" />
+<body>
+<div id="security" class="security-body">
+        
+        
+<script type="text/javascript">
+    var secCanvas = document.getElementById('security'); 
+    var canvas = document.getElementById('canvas-banner');
+    var nav = document.getElementById('testNav');
+    var header =  document.getElementById('header');
+    secCanvas.style.marginLeft = nav.offsetWidth + "px";
+    canvas.height = window.innerHeight * 1 / 60;
+    if (screen.width >= 992) {
+        canvas.height = window.innerHeight * 1 / 60;
+    } else {
+        canvas.height = window.innerHeight * 2 / 100;
+    }
+    canvas.width = window.document.body.clientWidth;
+
+</script>
+
+
+
+    <div class="layui-main" style="margin-top: 50px; width: 100%;height: 100%;">
+            <label class="label" style="font-size:30px;font-family:'微软雅黑';display: block;text-align: center;">安全级别</label>
+    </div>
+
+        <ul id="securityHeight" class="site-doc-icon site-doc-anim" style="margin-top: 15px;">
+                <li style="width: 100%;height: 100%; text-align: center">
+                    <div id ="securityHeightColor" class="layui-anim" data-anim="layui-anim-scale">
+                        <label id="securityHeightLabel" class="label" style="font-size:30px;font-family:'微软雅黑';">高</label>
+                    </div>
+                </li>
+        </ul>
+
+    <!-- <ul id="securityLow" class="site-doc-icon site-doc-anim" style="margin-top: 15px;">
+            <li style="width: 100%;height: 100%; text-align: center">
+                <div class="layui-anim layui-bg-red" data-anim="layui-anim-scale">
+                    <label class="label" style="font-size:30px;font-family:'微软雅黑';">低</label>
+                </div>
+            </li>
+    </ul> -->
+
+    <blockquote class="layui-elem-quote layui-quote-nm">
+            <div class="layui-inline" style="width:100%;margin-left: 43%;font-size: 20px">       
+                    <span class="layui-badge-dot layui-bg-green" ></span>   
+                    <text>密码：</text>
+                    <a href="javascript:void(0);" onclick = "passwdReset()">已设置</a>
+            </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+            <div class="layui-inline" style="width:100%;margin-left: 43%;font-size: 20px">
+                    <span id="emailBindState" class="layui-badge-dot layui-bg-green" ></span>   
+                    <text>邮箱：</text>
+                    <a id="emailText"></a>
+                    <a id="emailBind" href="javascript:void(0);" onclick = "emailReset()"></a>
+            </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+            <div class="layui-inline" style="width:100%;margin-left: 41%;font-size: 20px;">       
+                    <span id="iphoneBindState" class="layui-badge-dot" ></span>  
+                    <text>手机号：</text>
+                    <a id="iphoneText"></a>
+                    <a id="iphoneBind" href="javascript:void(0);" onclick = "iphoneReset()"></a>            
+            </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+            <div class="layui-inline" style="width:100%;margin-left: 39%;font-size: 20px;">       
+                    <span class="layui-badge-dot" ></span>  
+                    <text>密保问题：</text>
+                    <a ></a>
+                    <a href="javascript:void(0);" onclick = "js_merthod()">未设置</a>            
+            </div>
+    </blockquote>
+
+
+
+</div>
+
+<script src="/static/js/security.js"></script>
+<script>
+    $(document).ready(function(){
+        var JsonData = { sessionID: sessionId};
+            $.ajax({
+                   type: 'post',
+                   url: '/GetSessionUserInfo',
+                   data: JsonData,
+                   success: function(res) {
+                        if(res.Email == ""){
+                            $("#emailBind").text("未绑定");
+                            $("#emailBindState").removeClass('layui-bg-green');
+                        }else{
+                            $("#emailBind").text("已绑定"); 
+                            $("#emailText").text(res.Email);
+                            $("#emailBindState").addClass('layui-bg-green');
+                        }
+                        if(res.Iphone == ""){
+                            $("#iphoneBind").text("未绑定");
+                            $("#iphoneBindState").removeClass('layui-bg-green');
+                        }else{
+                            $("#iphoneBind").text("已绑定");
+                            $("#iphoneText").text(res.Iphone);
+                            $("#iphoneBindState").removeClass('layui-bg-green');
+                        }
+                    }
+                });
+
+    });
+    $("#securityHeight").click(function(){
+        if($('#securityHeightLabel').text() == '高'){
+            $('#securityHeightColor').addClass('layui-bg-red');
+            $('#securityHeightLabel').text('低');
+        }else if($('#securityHeightLabel').text() == '低'){
+            $('#securityHeightColor').removeClass('layui-bg-red')
+            $('#securityHeightLabel').text('高');
+        }
+    });
+
+        layui.use('jquery', function(){
+            var $ = layui.$;
+      
+            //演示动画
+            $('.site-doc-icon .layui-anim').on('load', function(){
+                var othis = $(this), anim = othis.data('anim');
+      
+                setTimeout(function(){
+                    othis.addClass(anim);
+                });            
+            });
+
+           
+
+        });
+        $(".site-doc-icon .layui-anim").load();
+</script>
+
+</body>

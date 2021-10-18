@@ -1,0 +1,103 @@
+{{template "head.html" .}}
+
+<!-- <div class="blog-body">
+    <canvas id="canvas-banner" style="background: rgb(255, 255, 255);"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas-banner');
+        canvas.width = window.document.body.clientWidth ;
+        if (screen.width >= 992) {
+            canvas.height = window.innerHeight * 1 / 60;
+        } else {
+            canvas.height = window.innerHeight * 2 / 100;
+        }
+      </script>
+</div> -->
+
+<!-- <script type="text/javascript">
+    var canvas = document.getElementById('canvas-banner');
+    var nav = document.getElementById('testNav');
+    var header =  document.getElementById('header');
+    nav.style.marginTop = header.offsetHeight + "px";
+
+    canvas.height = nav.offsetHeight;
+  
+</script> -->
+<style>
+        .site-doc-icon li{width: 222px;}
+        .site-doc-icon li .layui-anim{width: 150px; height: 150px; line-height: 150px; margin: 0 auto 10px; text-align: center; background-color: #009688; cursor: pointer; color: #fff; border-radius: 50%;}
+</style>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="margin-left: 40%;margin-top: 100px;">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+            <input type="text" id="lottInputId" name="lottertIdText" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+          </div>
+    </div>
+</form>
+
+<ul id="lotteryStart" class="site-doc-icon site-doc-anim" style="margin-top: 15px;">
+        <li style="width: 100%;height: 100%; text-align: center">
+            <div id ="lotteryStartColor" class="layui-anim" data-anim="layui-anim-scale">
+                <label id="lotteryStartLabel" class="label" style="font-size:30px;font-family:'微软雅黑';">开始</label>
+            </div>
+        </li>
+</ul>
+<div id="code" style="margin-top: 50px; ;text-align: center;"></div>
+
+<script color="0,0,0" opacity="0.5" count="99" src="/static/js/canvas-nest.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/plugin/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/jquery.qrcode.min.js"></script>
+
+<script>
+  
+    layui.use(['form','jquery'], function(){
+        var form = layui.form
+            ,  $ = layui.$;
+        form.render();
+            //演示动画
+            $('.site-doc-icon .layui-anim').on('load', function(){
+                var othis = $(this), anim = othis.data('anim');
+      
+                setTimeout(function(){
+                    othis.addClass(anim);
+                });            
+            });
+        $(".site-doc-icon .layui-anim").load();
+    });
+
+    function createQRCode(id) {
+
+    }
+
+    $("#lotteryStart").click(function(){
+     //   $('#code').html("");
+        var lottId = $('#lottInputId').val();     
+        var JsonData = { lottertId: lottId};
+        $.ajax({
+                   type: 'post',
+                   url: '/GetQRCode',
+                   data: JsonData,
+                   success: function(res) {
+                    if(res.status) {
+                        $("#code").qrcode({
+	                        render: "canvas", 
+	                        width: 200, 
+	                        height:200, 
+	                        text: res.qrCodeUrl
+                        });                       
+                       } else {
+                           layer.msg("Id不存在", {time: 1500, icon: 5});
+                       }                    
+                   },
+                   error: function() {
+                       console.warn('request interface is failure.');
+                   }
+        })         
+    });
+</script>
+
+
+
+</body>
+</html>
